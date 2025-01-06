@@ -10,10 +10,12 @@ const VistaLugares = () => {
   const navigate = useNavigate();
   const [lugares, setLugares] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [itinerarios, setItinerarios] = useState([]);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState('Ciudad de México'); // Valor por defecto "CDMX"
   const { categoria, ciudad } = location.state;
   const { titulo, contenido, imagen } = location.state || {};
+  const [expandedItinerary, setExpandedItinerary] = useState(null);  // Control de desplegado
 
 
   const categorias = {
@@ -228,7 +230,7 @@ const handleCategoryChange = (e) => {
 
   // Función para realizar la búsqueda, actualizada para usar las categorías seleccionadas
  // Función para realizar la búsqueda, actualizada para usar las categorías seleccionadas
- const fetchLugares = async () => {
+  const fetchLugares = async () => {
   setLoading(true);
   setError(null);
   setLugares([]);
@@ -253,6 +255,7 @@ const handleCategoryChange = (e) => {
     }));
 
     setLugares(fetchedLugares);
+    generarItinerarios(fetchedLugares);
   } catch (error) {
     setError("Ocurrió un error al obtener los lugares.");
     console.error("Error al realizar la búsqueda:", error);
@@ -302,7 +305,30 @@ useEffect(() => {
   useEffect(() => {
     fetchLugares();
   }, [searchQuery]); // Cuando 'searchQuery' cambie, vuelve a realizar la búsqueda
+  
+  const generarItinerarios = (lugares) => {
+    let copiaLugares = [...lugares];
+    copiaLugares.sort(() => 0.5 - Math.random());
 
+    const itinerariosGenerados = [[], [], []];
+    copiaLugares.forEach((lugar, index) => {
+      const itinerarioIndex = index % 3;
+      if (itinerariosGenerados[itinerarioIndex].length < 5) {
+        itinerariosGenerados[itinerarioIndex].push(lugar);
+      }
+    });
+
+    setItinerarios(itinerariosGenerados);
+  };
+
+  const toggleItinerary = (index) => {
+    setExpandedItinerary(expandedItinerary === index ? null : index);
+  };
+
+  useEffect(() => {
+    fetchLugares();
+  }, []);
+  
   return (
     <div className="carousel-container1">
        <Categoria titulo={titulo} contenido={contenido} imagen ={imagen} />
@@ -353,8 +379,38 @@ useEffect(() => {
               </div>
             </div>
           )}
+        
+              {/* Nueva sección de itinerarios como acordeón */}
+      <div className="itinerary-container">
+        <h2 className="itinerary-title">Itinerarios Generados</h2>
+        {itinerarios.map((itinerario, index) => (
+          <div key={index} className="itinerary-card">
+            <button
+              className="accordion-btn"
+              onClick={() => toggleItinerary(index)}
+            >
+              {expandedItinerary === index ? 'Cerrar' : `Itinerario ${index + 1}`}
+            </button>
+            {expandedItinerary === index && (
+              <div className="accordion-content">
+                {itinerario.map((lugar) => (
+                  <div key={lugar.id} className="itinerary-item">
+                    <img
+                      src={lugar.image}
+                      alt={lugar.title}
+                    />
+                    <h4>{lugar.title}</h4>
+                    <p>{lugar.location}</p>
+                    <p>Calificación: {lugar.rating}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
         </div>
-  
         {/* Lista de lugares */}
         <div className="list-container1">
           {loading && <p>Cargando lugares...</p>}

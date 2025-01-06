@@ -10,7 +10,8 @@ app.use(cors());
 // Ruta para búsqueda de lugares
 app.get('/search', async (req, res) => {
     const { city, radius, category, priceRange, rating, keywords, lessKnown, nonTourist } = req.query;
-    const apiKey = 'AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU';  // Cambia esto con tu propia API key
+    const apiKey = 'AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k';  // Cambia esto con tu propia API key
+    //claves AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k, AIzaSyDHXFKn_4RXx7aajRVb0lqr5SDXuLFp8SU, AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU
 
     try {
         // Construir el término de búsqueda para la API
@@ -66,7 +67,7 @@ app.get('/search', async (req, res) => {
 // Nueva ruta para obtener detalles de un lugar específico usando place_id
 app.get('/place-details', async (req, res) => {
     const { place_id } = req.query;
-    const apiKey = 'AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU';
+    const apiKey = 'AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k';
 
     try {
         const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name,formatted_address,rating,reviews,photos,opening_hours,website&key=${apiKey}`;
@@ -80,7 +81,7 @@ app.get('/place-details', async (req, res) => {
 });
 app.get('/place-directions', async (req, res) => {
     const { place_id } = req.query;
-    const apiKey = 'AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU';
+    const apiKey = 'AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k';
 
     try {
         const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=formatted_address&key=${apiKey}`;
@@ -98,7 +99,7 @@ app.get('/place-directions', async (req, res) => {
 // server.js - Endpoint para obtener la foto del lugar
 app.get('/place-photo', async (req, res) => {
     const { photo_reference } = req.query;
-    const apiKey = 'AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU';
+    const apiKey = 'AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k';
   
     try {
       const url = `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=300&photoreference=${photo_reference}&key=${apiKey}`;
@@ -120,7 +121,7 @@ app.get('/place-photo', async (req, res) => {
 
 app.get('/place-reviews', async (req, res) => {
     const { place_id, pagetoken } = req.query;
-    const apiKey = 'AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU';
+    const apiKey = 'AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k';
 
     try {
         let url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${place_id}&fields=name,reviews&language=es&key=${apiKey}`;
@@ -182,7 +183,7 @@ app.get('/place-description', async (req, res) => {
 
 app.get('/route-matrix', async (req, res) => {
     const { origins, destinations } = req.query;
-    const apiKey = 'AIzaSyCEj5HsivhghX7r_o31Z9FKo7HaQblM6WU';
+    const apiKey = 'AIzaSyCLdO6CWXFW4ShsSI0zc7QVrJGOH8Er_5k';
     const formattedOrigins = `place_id:${origins}`;
     const formattedDestinations = destinations.split('|').map(id => `place_id:${id}`).join('|');
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${formattedOrigins}&destinations=${formattedDestinations}&key=${apiKey}`;

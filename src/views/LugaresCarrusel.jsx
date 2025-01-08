@@ -199,6 +199,8 @@ const LugaresCarrusel = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [noResults, setNoResults] = useState(false);
+  const [itinerarios, setItinerarios] = useState([]);
+  const [expandedItinerary, setExpandedItinerary] = useState(null);
 
   useEffect(() => {
     if (categoria && categorias[categoria]) {
@@ -274,11 +276,44 @@ const LugaresCarrusel = () => {
       }
 
       setPackages(fetchedPackages);
+      generarItinerarios(fetchedPackages);
     } catch (error) {
       setError('Ocurrió un error al realizar la búsqueda.');
     } finally {
       setLoading(false);
     }
+  };
+
+  const generarItinerarios = (lugares) => {
+    let copiaLugares = [...lugares];
+    copiaLugares.sort(() => 0.5 - Math.random());
+
+    const itinerariosGenerados = [[], [], []];
+    copiaLugares.forEach((lugar, index) => {
+      const itinerarioIndex = index % 3;
+      if (itinerariosGenerados[itinerarioIndex].length < 5) {
+        itinerariosGenerados[itinerarioIndex].push(lugar);
+      }
+    });
+
+    setItinerarios(itinerariosGenerados);
+  };
+
+  const agregarItinerario = async (itinerario) => {
+    try {
+      const response = await axios.post("http://localhost:3002/api/plan/crearItinerario", {
+        actividades: itinerario,
+        nombrePlan: `Itinerario - ${new Date().toLocaleDateString()}`,
+      });
+      alert("Itinerario agregado con éxito");
+    } catch (error) {
+      console.error("Error al agregar el itinerario:", error);
+      alert("Hubo un error al agregar el itinerario");
+    }
+  };
+
+  const toggleItinerary = (index) => {
+    setExpandedItinerary(expandedItinerary === index ? null : index);
   };
 
   const mapPriceLevel = (priceLevel) => {
@@ -438,6 +473,34 @@ const LugaresCarrusel = () => {
                       </div>
                     ) : null}
                     {noResults && <h1>No se encontraron resultados para tu búsqueda :(</h1>}
+
+                      <div className="itinerary-container">
+        <h2 className="itinerary-title">Itinerarios Generados</h2>
+        {itinerarios.map((itinerario, index) => (
+          <div key={index} className="itinerary-card">
+            <button className="accordion-btn" onClick={() => toggleItinerary(index)}>
+              {expandedItinerary === index ? 'Cerrar' : `Itinerario ${index + 1}`}
+            </button>
+            {expandedItinerary === index && (
+              <div className="accordion-content">
+                {itinerario.map((lugar) => (
+                  <div key={lugar.id} className="itinerary-item">
+                    <h4>{lugar.title}</h4>
+                    <p>{lugar.location}</p>
+                  </div>
+                ))}
+                <button
+                  className="save-itinerary-btn"
+                  onClick={() => agregarItinerario(itinerario)}
+                >
+                  Guardar Itinerario
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      
                   </div>
                 );
               };

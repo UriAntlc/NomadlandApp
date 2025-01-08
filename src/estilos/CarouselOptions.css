@@ -239,3 +239,85 @@ button[type="submit"]:hover {
 .star.empty { 
   color: lightgray; 
 }
+
+/* Estilo para contenedor de itinerarios */
+.itinerary-container {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f1f1f1;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.itinerary-title {
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.itinerary-card {
+  background-color: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.accordion-btn {
+  width: 100%;
+  text-align: left;
+  padding: 15px;
+  font-size: 18px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.accordion-btn:hover {
+  background-color: var(--secondary-color);
+}
+
+.accordion-content {
+  padding: 15px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.itinerary-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.itinerary-item h4 {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.itinerary-item p {
+  font-size: 14px;
+  color: #555;
+}
+
+/* Botón para guardar itinerario */
+.save-itinerary-btn {
+  padding: 10px 20px;
+  background-color: #008080;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.save-itinerary-btn:hover {
+  background-color: #005757;
+}

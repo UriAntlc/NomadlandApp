@@ -52,11 +52,14 @@ const BarraNav = () => {
               Ver mi plan
             </Link>
           </li>
-          <li>
-            <Link className="botonAccion" to="/InicioSesion">
-              {user ? "Cerrar sesión" : "Iniciar sesión"}
-            </Link>
-          </li>
+            {/* Condición para ocultar el enlace "Cerrar sesión" */}
+            {user ? null : (
+            <li>
+              <Link className="botonAccion" to="/InicioSesion">
+                Iniciar sesión
+              </Link>
+            </li>
+          )}
           <li>
             <Link className="botonAccion" to="/Perfil">
               {user ? user.nombre : "Perfil"}

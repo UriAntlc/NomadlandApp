@@ -38,11 +38,14 @@ import Ruta from "./views/Ruta"
 import Busqueda from "./componentes/BusquedaLugares"
 import CalcularRuta from "./componentes/calcularRuta"
 import PerfilPlan from "./views/PerfilPlan";
+import { SearchProvider } from "./context/searchContext";
+
 
 function App() {
   return (
     <div className="App">
       <AuthProvider>
+        <SearchProvider>
       <Router>
         <BarraNav />
         <Routes>
@@ -92,6 +95,7 @@ function App() {
           <Route path="*" Component={NotFound} />
         </Routes>
       </Router>
+      </SearchProvider>
       </AuthProvider>
       <Footer />
     </div>

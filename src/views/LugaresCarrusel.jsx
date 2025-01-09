@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../estilos/CarouselOptions.css';
 import axios from 'axios';
+import { useSearch } from '../context/searchContext';
 
 const LugaresCarrusel = () => {
   const location = useLocation();
@@ -180,6 +181,8 @@ const LugaresCarrusel = () => {
     "childrens_camp": "Campamento de niños",
   
   };
+  const {searchData} = useSearch();
+  const {ciudad, categoria: contextCategory, presupuesto} = searchData;
 
   // Estado para manejar las categorías seleccionadas
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -203,14 +206,14 @@ const LugaresCarrusel = () => {
   const [expandedItinerary, setExpandedItinerary] = useState(null);
 
   useEffect(() => {
-    if (categoria && categorias[categoria]) {
+    if (contextCategory && categorias[contextCategory]) {
       setShowCheckboxes(true);
-      setAvailableCategories(categorias[categoria]);
+      setAvailableCategories(categorias[contextCategory]);
     } else {
       setShowCheckboxes(false);
       setAvailableCategories([]);
     }
-  }, [categoria]);
+  }, [contextCategory]);
 
   const handleCategoryChange = (e) => {
     const value = e.target.value;
@@ -229,10 +232,10 @@ const LugaresCarrusel = () => {
     setNoResults(false);
 
     try {
-      const categoriasParaBusqueda = selectedCategories.length > 0 ? selectedCategories : [categoria];
+      const categoriasParaBusqueda = selectedCategories.length > 0 ? selectedCategories : [contextCategory];
       let url = `http://localhost:3002/search?city=${city}&category=${categoriasParaBusqueda.join(",")}&radius=${radius}&keywords=${keywords}`;
 
-      if (categoria !== 'museum' && priceRange && priceRange !== '4') {
+      if (contextCategory !== 'museum' && priceRange && priceRange !== '4') {
         url += `&priceRange=${priceRange}`;
       }
 

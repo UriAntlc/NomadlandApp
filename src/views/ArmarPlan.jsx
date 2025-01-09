@@ -7,9 +7,10 @@ import Lugar1 from "../imgs/explora01.jpg";
 import BusquedaLugares from "../componentes/BusquedaLugares";
 import { Link } from "react-router-dom";
 import { FaMapMarkerAlt, FaClock, FaCalendar, FaPlus, FaUser, FaUserFriends, FaUsers } from 'react-icons/fa';
-
+import { useSearch } from "../context/searchContext";
 
 export default function ArmarPlan() {
+  const {setsearchData} = useSearch();
   const navigate = useNavigate();
   const [ciudad, setCiudad] = useState("");
   const [estancia, setEstancia] = useState("Unas cuantas horas");
@@ -45,17 +46,15 @@ export default function ArmarPlan() {
       alert("Por favor, ingresa una ciudad");
       return;
     }
-    navigate("/LugaresCarrusel", {
-      state: {
-        ciudad,
-        estancia,
-        acompanantes,
-        presupuesto: translatedPresupuesto,
-        categoria,
-        calificacionMinima,
-        ambiente,
-      },
+    setSearchDara({
+      ciudad,
+      categoria,
+      presupuesto,
+      calificacionMinima,
+      ambiente,
+      acompanantes,
     });
+    navigate("/LugaresCarrusel");
   };
 
   return (

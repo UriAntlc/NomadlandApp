@@ -10,7 +10,7 @@ import { FaMapMarkerAlt, FaClock, FaCalendar, FaPlus, FaUser, FaUserFriends, FaU
 import { useSearch } from "../context/searchContext";
 
 export default function ArmarPlan() {
-  const {setsearchData} = useSearch();
+  const {setSearchData} = useSearch();
   const navigate = useNavigate();
   const [ciudad, setCiudad] = useState("");
   const [estancia, setEstancia] = useState("Unas cuantas horas");
@@ -46,7 +46,7 @@ export default function ArmarPlan() {
       alert("Por favor, ingresa una ciudad");
       return;
     }
-    setSearchDara({
+    setSearchData({
       ciudad,
       categoria,
       presupuesto,

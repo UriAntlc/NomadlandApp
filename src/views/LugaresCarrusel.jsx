@@ -181,8 +181,8 @@ const LugaresCarrusel = () => {
     "childrens_camp": "Campamento de niños",
   
   };
-  const {searchData} = useSearch();
-  const {ciudad, categoria: contextCategory, presupuesto} = searchData;
+  const {SearchData} = useSearch();
+  const {ciudad, categoria: contextCategory, presupuesto} = SearchData;
 
   // Estado para manejar las categorías seleccionadas
   const [selectedCategories, setSelectedCategories] = useState([]);

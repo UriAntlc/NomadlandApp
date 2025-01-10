@@ -1,8 +1,9 @@
 import { createContext, useContext, useState } from "react";
-const searchContext = createContext();
+
+const SearchContext = createContext();
 
 export const SearchProvider = ({children}) =>{
-    const [searchData, setSearchData] = useState ({
+    const [SearchData, setSearchData] = useState ({
         ciudad: '',
         categoria: '',
         presupuesto: '',
@@ -11,10 +12,10 @@ export const SearchProvider = ({children}) =>{
         acompanantes: '',
     });
     return(
-        <searchContext.Provider value = {{SearchData, setSearchData}}>
+        <SearchContext.Provider value = {{SearchData, setSearchData}}>
             {children}
-        </searchContext.Provider>
+        </SearchContext.Provider>
     );
 };
 
-export const useSearch = () => useContext(searchContext);
+export const useSearch = () => useContext(SearchContext);

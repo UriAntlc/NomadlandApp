@@ -21,7 +21,7 @@ import {
   arteImage,
   explora01, Lugar1, Lugar2, Lugar3, Lugar4
 } from "../imgs/ArchivoImgs";
-
+import PantallaCarga from "../componentes/PantallaCarga";
 const lugares = [
   {
     id: 1,
@@ -239,7 +239,7 @@ const DetalleLugar = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [showCheckboxes, setShowCheckboxes] = useState(false);
   const [availableCategories, setAvailableCategories] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [city, setCity] = useState(location.state?.ciudad || '');
   const [radius, setRadius] = useState('');
   const [categoria, setCategory] = useState(location.state?.categoria || '');
@@ -329,7 +329,9 @@ const DetalleLugar = () => {
       }
 
       setPackages(fetchedPackages);
+      setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
     } catch (error) {
+      setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
       setError('Ocurrió un error al realizar la búsqueda.');
     } finally {
       setLoading(false);
@@ -393,6 +395,10 @@ const DetalleLugar = () => {
   };
 
   return (
+    <>
+    {isLoading ? (
+        <PantallaCarga message="Cargando datos, por favor espera..." />
+      ) : (
     <div className="contenedorVista">
       {/* Sección de bienvenida */}
       <section
@@ -436,7 +442,7 @@ const DetalleLugar = () => {
         }}
       ></div>
 
-<div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10 }}>
+      <div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10 }}>
           <BotonRegresar />
         </div>
         <div className="contenedorDos">
@@ -535,6 +541,8 @@ const DetalleLugar = () => {
         </Link>
       </section>
     </div>
+      )}
+    </>
   );
 };
 

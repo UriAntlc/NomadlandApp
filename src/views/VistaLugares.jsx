@@ -4,6 +4,7 @@ import axios from "axios";
 import "../estilos/detallecategoria.css";
 import Categoria from "../componentes/Categoria"; // Ajusta la ruta según sea necesario
 import BotonRegresar from "../componentes/BotonRegresar";
+import PantallaCarga from "../componentes/PantallaCarga";
 
 const VistaLugares = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const VistaLugares = () => {
   const { categoria, ciudad } = location.state;
   const { titulo, contenido, imagen } = location.state || {};
   const [expandedItinerary, setExpandedItinerary] = useState(null);  // Control de desplegado
+  const [isLoading, setIsLoading] = useState(true);
 
 
   const categorias = {
@@ -255,6 +257,7 @@ const handleCategoryChange = (e) => {
     }));
 
     setLugares(fetchedLugares);
+    setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
     generarItinerarios(fetchedLugares);
   } catch (error) {
     setError("Ocurrió un error al obtener los lugares.");
@@ -330,123 +333,129 @@ useEffect(() => {
   }, []);
   
   return (
-    <div className="carousel-container1">
-       <Categoria titulo={titulo} contenido={contenido} imagen ={imagen} />
-      <div style={{ position: "absolute", top: "100px", left: "60px", zIndex: 10 }}>
-        <BotonRegresar />
-      </div>
-      <h2 className="titula">Lugares de interés</h2>
-      <div className="content-container">
-        {/* Filtros: búsqueda y categorías */}
-        <div className="filters-column">
-          <div className="search-column1">
-            <h2>Busca lugares</h2>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                fetchLugares();
-              }}
-            >
-              <div>
-                <label htmlFor="searchQuery">Buscar lugar:</label>
-                <input
-                  type="text"
-                  id="searchQuery"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Ingresa un lugar"
-                />
-              </div>
-              <button type="submit">Buscar</button>
-            </form>
-          </div>
-  
-          {showCheckboxes && (
-            <div className="categories-column1">
-              <h3>Selecciona las categorías:</h3>
-              <div className="checkbox-group">
-                {availableCategories.map((category) => (
-                  <label key={category}>
-                    <input
-                      type="checkbox"
-                      value={category}
-                      onChange={handleCategoryChange}
-                      checked={selectedCategories.includes(category)}
-                    />
-                    {categoriasTraduccion[category]}
-                  </label>
-                ))}
-              </div>
+    <>
+    {isLoading ? (
+        <PantallaCarga message="Cargando datos, por favor espera..." />
+      ) : (
+      <div className="carousel-container1">
+          <Categoria titulo={titulo} contenido={contenido} imagen ={imagen} />
+        <div style={{ position: "absolute", top: "100px", left: "60px", zIndex: 10 }}>
+          <BotonRegresar />
+        </div>
+        <h2 className="titula">Lugares de interés</h2>
+        <div className="content-container">
+          {/* Filtros: búsqueda y categorías */}
+          <div className="filters-column">
+            <div className="search-column1">
+              <h2>Busca lugares</h2>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  fetchLugares();
+                }}
+              >
+                <div>
+                  <label htmlFor="searchQuery">Buscar lugar:</label>
+                  <input
+                    type="text"
+                    id="searchQuery"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Ingresa un lugar"
+                  />
+                </div>
+                <button type="submit">Buscar</button>
+              </form>
             </div>
-          )}
-        
-              {/* Nueva sección de itinerarios como acordeón */}
-      <div className="itinerary-container">
-        <h2 className="itinerary-title">Itinerarios Generados</h2>
-        {itinerarios.map((itinerario, index) => (
-          <div key={index} className="itinerary-card">
-            <button
-              className="accordion-btn"
-              onClick={() => toggleItinerary(index)}
-            >
-              {expandedItinerary === index ? 'Cerrar' : `Itinerario ${index + 1}`}
-            </button>
-            {expandedItinerary === index && (
-              <div className="accordion-content">
-                {itinerario.map((lugar) => (
-                  <div key={lugar.id} className="itinerary-item">
-                    <img
-                      src={lugar.image}
-                      alt={lugar.title}
-                    />
-                    <h4>{lugar.title}</h4>
-                    <p>{lugar.location}</p>
-                    <p>Calificación: {lugar.rating}</p>
-                  </div>
-                ))}
+              
+            {showCheckboxes && (
+              <div className="categories-column1">
+                <h3>Selecciona las categorías:</h3>
+                <div className="checkbox-group">
+                  {availableCategories.map((category) => (
+                    <label key={category}>
+                      <input
+                        type="checkbox"
+                        value={category}
+                        onChange={handleCategoryChange}
+                        checked={selectedCategories.includes(category)}
+                      />
+                      {categoriasTraduccion[category]}
+                    </label>
+                  ))}
+                </div>
               </div>
             )}
-          </div>
-        ))}
-      </div>
 
+                {/* Nueva sección de itinerarios como acordeón */}
+        <div className="itinerary-container">
+          <h2 className="itinerary-title">Itinerarios Generados</h2>
+          {itinerarios.map((itinerario, index) => (
+            <div key={index} className="itinerary-card">
+              <button
+                className="accordion-btn"
+                onClick={() => toggleItinerary(index)}
+              >
+                {expandedItinerary === index ? 'Cerrar' : `Itinerario ${index + 1}`}
+              </button>
+              {expandedItinerary === index && (
+                <div className="accordion-content">
+                  {itinerario.map((lugar) => (
+                    <div key={lugar.id} className="itinerary-item">
+                      <img
+                        src={lugar.image}
+                        alt={lugar.title}
+                      />
+                      <h4>{lugar.title}</h4>
+                      <p>{lugar.location}</p>
+                      <p>Calificación: {lugar.rating}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
-        {/* Lista de lugares */}
-        <div className="list-container1">
-          {loading && <p>Cargando lugares...</p>}
-          {error && <p>{error}</p>}
-          {lugares.length > 0 ? (
-            lugares.map((lugar) => (
-              <div key={lugar.id} className="list-item1">
-                <img
-                  src={lugar.image}
-                  alt={lugar.title}
-                  className="package-image1"
-                />
-                <h3>{lugar.title}</h3>
-                <p>
-                  <strong>Calificación:</strong> {lugar.rating}
-                </p>
-                <p>
-                  <strong>Ubicación:</strong> {lugar.location}
-                </p>
-                <p>
-                  <strong>Estado:</strong> {lugar.openingTime}
-                </p>
-                <button
-                  className="view-more-btn1"
-                  onClick={() => handleViewMoreClick(lugar)}
-                >
-                  Ver más
-                </button>
-              </div>
-            ))
-          ) : (
-            !loading && <p>No se encontraron lugares para esta búsqueda.</p>
-          )}
+
+          </div>
+          {/* Lista de lugares */}
+          <div className="list-container1">
+            {loading && <p>Cargando lugares...</p>}
+            {error && <p>{error}</p>}
+            {lugares.length > 0 ? (
+              lugares.map((lugar) => (
+                <div key={lugar.id} className="list-item1">
+                  <img
+                    src={lugar.image}
+                    alt={lugar.title}
+                    className="package-image1"
+                  />
+                  <h3>{lugar.title}</h3>
+                  <p>
+                    <strong>Calificación:</strong> {lugar.rating}
+                  </p>
+                  <p>
+                    <strong>Ubicación:</strong> {lugar.location}
+                  </p>
+                  <p>
+                    <strong>Estado:</strong> {lugar.openingTime}
+                  </p>
+                  <button
+                    className="view-more-btn1"
+                    onClick={() => handleViewMoreClick(lugar)}
+                  >
+                    Ver más
+                  </button>
+                </div>
+              ))
+            ) : (
+              !loading && <p>No se encontraron lugares para esta búsqueda.</p>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      )}
+    </>
   );  
 };  
 

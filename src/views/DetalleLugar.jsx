@@ -253,6 +253,7 @@ const DetalleLugar = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [noResults, setNoResults] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (categoria && categorias[categoria]) {
@@ -402,10 +403,41 @@ const DetalleLugar = () => {
           backgroundSize: "cover",
           backgroundPosition: "center top",
         }}
+        onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       >
         <div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10 }}>
           <BotonRegresar />
         </div>
+        <div
+        className="gradienteSuperpuesto"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "linear-gradient(to top, #006d77, transparent)",
+          opacity: isHovered ? 0 : 1, // Cambia la opacidad para la transición
+          transition: "opacity 0.7s ease", // Transición suave de la opacidad
+          borderRadius:"25px",
+        }}
+      ></div>
+      {/* Capa del Gradiente */}
+      <div
+        className="gradienteSuperpuesto"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "linear-gradient(to top, #e19577, transparent)",
+          opacity: isHovered ? 1 : 0, // Cambia la opacidad para la transición
+          transition: "opacity 0.7s ease", // Transición suave de la opacidad
+          borderRadius:"25px",
+        }}
+      ></div>
         <div className="contenedorDos">
           <h1>{titulo}</h1>
           <p>{descripcion}</p>

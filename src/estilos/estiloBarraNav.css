@@ -89,7 +89,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header {
     flex-wrap: wrap; /* Permite que los elementos se ajusten en línea */
     padding: 0.8rem;
@@ -108,11 +108,21 @@
   }
 
   .nav-links {
-    flex-wrap: wrap; /* Permite que los enlaces se ajusten si es necesario */
-    justify-content: center; /* Centra los enlaces */
-    gap: 0.6rem; /* Reduce más el espacio */
-    font-size: 1rem; /* Ajusta la fuente a pantallas pequeñas */
+    
+    display: none; /* Oculta inicialmente los enlaces de navegación */
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
   }
+  
+  .menu-toggle {
+    display: block; /* Muestra el botón ☰ en pantallas pequeñas */
+  }
+  
+  .nav-links.open {
+    display: flex; /* Muestra los enlaces cuando el menú está abierto */
+  }
+  
 }
 
 @media (max-width: 480px) {
@@ -143,21 +153,4 @@
   }
 
   
-}
-
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block; /* Muestra el botón ☰ en pantallas pequeñas */
-  }
-
-  .nav-links {
-    display: none; /* Oculta inicialmente los enlaces de navegación */
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-  }
-
-  .nav-links.open {
-    display: flex; /* Muestra los enlaces cuando el menú está abierto */
-  }
 }

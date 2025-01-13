@@ -7,6 +7,8 @@ import axios from 'axios';
 import { LuPrinter } from 'react-icons/lu';
 import { FaCheck, FaEdit, FaRoute, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { BlobProvider } from '@react-pdf/renderer';
+import PDF from '../componentes/PDF';
 
 const RevisarPlan = () => {
   const [plan, setPlan] = useState([]);
@@ -145,9 +147,9 @@ const RevisarPlan = () => {
   };
   // Función para imprimir
   const handlePrint = () => {
-    navigate('/VerPlan', { state: { plan } }); // Pasar datos del plan al componente VerPlan
+    console.log('Botón clickeado. Generando PDF...');
+    // BlobProvider devuelve una promesa, pero funciona automáticamente dentro del componente
   };
-
   const Completar = async () => {
     try{
       const response = await axios.post('http://localhost:3001/plan/nuevoPlan', {}, {withCredentials: true})
@@ -246,9 +248,22 @@ const RevisarPlan = () => {
             <button className="botonVerRuta" onClick={handleVerRuta}>
               <FaRoute /> Ver ruta
             </button>
-            <button className="botonVerRuta" onClick={handlePrint}>
-              <LuPrinter /> Ver PDF
-            </button>
+            <BlobProvider document={<PDF />}>
+        {({ url, loading }) => (
+          <button className="botonVerRuta"
+            onClick={() => {
+              if (!loading && url) {
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'La mmlona cuhk.pdf';
+                link.click();
+              }
+            }}
+          >
+            <LuPrinter /> {loading ? 'Cargando PDF...' : ' Generar y Descargar PDF'}
+          </button>
+        )}
+      </BlobProvider>
           </div>
           {mapsLink && (
             <div>

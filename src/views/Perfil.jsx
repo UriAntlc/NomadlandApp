@@ -8,6 +8,7 @@ import { FaCircle } from "react-icons/fa";
 import { EjemploPerfil } from "../imgs/ArchivoImgs";
 import { AuthContext } from "../context/auth";
 import ActividadAgregada from '../componentes/ActividadAgregada';
+import PantallaCarga from "../componentes/PantallaCarga";
 
 const Perfil = () => {
   const { logout } = useContext(AuthContext);
@@ -18,6 +19,7 @@ const Perfil = () => {
   const [actividades, setActividades] = useState([]);
   const [verplan, setVerPlan] = useState([]);
   const token = localStorage.getItem('token');
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   //Token perfil
   {/*
@@ -84,6 +86,7 @@ const Perfil = () => {
         setPlan(userFav);
         setVerPlan(userPlan);
         setActividades(planAct);
+        setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
       } catch (error) {
         console.error("Error al obtener el perfil del usuario:", error);
       }
@@ -97,6 +100,7 @@ const Perfil = () => {
       try {
         await axios.post("http://localhost:3001/auth/logout", {}, { withCredentials: true });
         logout(); // Limpia el estado global del usuario
+        setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
         navigate('/Inicio');
       } catch (error) {
         console.error("Error al cerrar sesión:", error);
@@ -112,6 +116,7 @@ const Perfil = () => {
         await axios.delete("http://localhost:3001/auth/eliminar", {
           withCredentials: true,
         });
+        setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
         navigate("/Inicio"); // Redirige después de eliminar la cuenta
       } catch (error) {
         console.error("Error al eliminar la cuenta:", error);
@@ -141,6 +146,7 @@ const Perfil = () => {
         setPlan((prevPlan) =>
           prevPlan.filter((actividad) => actividad.ID_actividad !== ID_actividad)
         );
+        setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
       } catch (error) {
         console.error("Error al eliminar la actividad de favoritos:", error);
       }
@@ -384,6 +390,9 @@ const Perfil = () => {
 
   return (
     <>
+    {isLoading ? (
+        <PantallaCarga message="Cargando datos, por favor espera..." />
+      ) : (
     <div className="perfil-centrado">
 
       <div className="izquierda">
@@ -456,14 +465,11 @@ const Perfil = () => {
           </ul>
         </div>
       </div>
-
       <div className="derecha">
         <main className="content">{renderContent()}</main>
       </div>
-
-
     </div>
-
+    )}
 
     
 

@@ -4,10 +4,12 @@ import { logoNomadas } from "../imgs/ArchivoImgs";
 import "../estilos/estiloBarraNav.css";
 import axios from "axios";
 import { AuthContext } from "../context/auth";
+import PantallaCarga from "./PantallaCarga";
 
 const BarraNav = () => {
   const { user, login, logout } = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar el menú desplegable
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const verificarUsuario = async () => {
@@ -18,6 +20,7 @@ const BarraNav = () => {
         if (response.data) {
           login(response.data); // Guardar usuario autenticado
         }
+        setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
       } catch (error) {
         logout(); // Si ocurre un error, se desloguea
       }
@@ -26,6 +29,10 @@ const BarraNav = () => {
   }, [login, logout]);
 
   return (
+    <>
+    {isLoading ? (
+        <PantallaCarga message="Cargando datos, por favor espera..." />
+      ) : (
     <header className="header">
       <div className="logo">
         <Link to="/Inicio">
@@ -74,6 +81,8 @@ const BarraNav = () => {
         </ul>
       </nav>
     </header>
+    )}
+    </>
   );
 };
 

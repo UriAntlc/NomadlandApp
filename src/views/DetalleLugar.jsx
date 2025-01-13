@@ -406,9 +406,6 @@ const DetalleLugar = () => {
         onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       >
-        <div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10 }}>
-          <BotonRegresar />
-        </div>
         <div
         className="gradienteSuperpuesto"
         style={{
@@ -438,6 +435,10 @@ const DetalleLugar = () => {
           borderRadius:"25px",
         }}
       ></div>
+
+<div style={{ position: "absolute", top: "10px", left: "10px", zIndex: 10 }}>
+          <BotonRegresar />
+        </div>
         <div className="contenedorDos">
           <h1>{titulo}</h1>
           <p>{descripcion}</p>

@@ -19,8 +19,8 @@ const BarraNav = () => {
         });
         if (response.data) {
           login(response.data); // Guardar usuario autenticado
+          setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
         }
-        setIsLoading(false); // Cuando los datos están listos, ocultar la pantalla de carga
       } catch (error) {
         logout(); // Si ocurre un error, se desloguea
       }

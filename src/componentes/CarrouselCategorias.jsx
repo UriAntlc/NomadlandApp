@@ -43,7 +43,7 @@ const CarrouselCategorias = ({ categorias }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % groupedCategorias.length);
-    }, 3000);
+    }, 3500);
     return () => clearInterval(interval);
   }, [groupedCategorias]);
 

@@ -31,7 +31,7 @@
 }
 
 .contenedorContendioFichas p {
-  font-size: 1rem; /* Reduce el tamaño del texto */
+  font-size: 1.75rem; /* Reduce el tamaño del texto */
   color: var(--background-color); /* Asegura contraste con el fondo */
   margin-top: 10px;
   white-space: normal; /* Permite que el texto ocupe varias líneas */

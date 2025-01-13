@@ -35,4 +35,5 @@
 .imagenContenedor .textoImagen h2,
 .imagenContenedor .textoImagen p {
     color: white !important;
+    font-size: 2rem;
 }

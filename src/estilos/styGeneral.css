@@ -88,12 +88,14 @@
   font-size: 35px;
   margin: 0;
   color: #edf6f9;
+  font-size: 2rem;
 }
 
 .contenedorDos p {
   font-size: 18px;
   color: var(--background-color);
   margin-top: 10px;
+  font-size: 1.5rem;
 }
 
 .botonAccion2,

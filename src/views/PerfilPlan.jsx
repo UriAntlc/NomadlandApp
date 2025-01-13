@@ -256,29 +256,31 @@ const PerfilPlan = () => {
         <div className="contenedorLadoDerecho">  
         <div className="nombrePlanContenedor">
             {plan.map((actividad, index) => (
-              <div key={index}>
-                {edicionIndex === index ? (
-                  <>
-                    <input
-                      type="text"
-                      value={nuevoNombre}
-                      onChange={(e) => setNuevoNombre(e.target.value)}
-                      placeholder="Ingresa un nuevo nombre"
-                    />
-                    <button onClick={() => guardarNombre(index)}>Guardar</button>
-                    <button onClick={() => setEdicionIndex(null)}>Cancelar</button>
-                  </>
-                ) : (
-                  <>
-                    <h3 className="nombrePlan">
-                      {actividad.nombre_itinerario || 'Nombre no disponible'}
-                    </h3>
-                    <button onClick={() => iniciarEdicion(index, actividad.nombre_itinerario, actividad.ID_plan)}>
-                      Editar
-                    </button>
-                  </>
-                )}
-              </div>
+              index === 0 && ( // Limita el renderizado al primer elemento del arreglo
+                <div key={index}>
+                  {edicionIndex === index ? (
+                    <>
+                      <input
+                        type="text"
+                        value={nuevoNombre}
+                        onChange={(e) => setNuevoNombre(e.target.value)}
+                        placeholder="Ingresa un nuevo nombre"
+                      />
+                      <button onClick={() => guardarNombre(index)}>Guardar</button>
+                      <button onClick={() => setEdicionIndex(null)}>Cancelar</button>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="nombrePlan">
+                        {actividad.nombre_itinerario || 'Nombre no disponible'}
+                      </h3>
+                      <button onClick={() => iniciarEdicion(index, actividad.nombre_itinerario)}>
+                        Editar
+                      </button>
+                    </>
+                  )}
+                </div>
+              )
             ))}
           </div>
           <div className="detalleActividades">

@@ -3,11 +3,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../estilos/CarouselOptions.css';
 import axios from 'axios';
 import PantallaCarga from "../componentes/PantallaCarga";
+import Alertas from "../componentes/Alertas";
 
 const BusquedaLugares = ({ ciudad, keywords }) => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
   const [city, setCity] = useState(location.state?.ciudad || ciudad || '');
   const [keywordsState, setKeywords] = useState(location.state?.keywords || keywords || '');
   const [radius, setRadius] = useState('');
@@ -73,7 +75,7 @@ const BusquedaLugares = ({ ciudad, keywords }) => {
     const itinerariosGenerados = [[], [], []];
     copiaLugares.forEach((lugar, index) => {
       const itinerarioIndex = index % 3;
-      if (itinerariosGenerados[itinerarioIndex].length < 5) {
+      if (itinerariosGenerados[itinerarioIndex].length < 3) {
         itinerariosGenerados[itinerarioIndex].push(lugar);
       }
     });
@@ -84,15 +86,27 @@ const BusquedaLugares = ({ ciudad, keywords }) => {
 
 
   const agregarItinerario = async (itinerario) => {
+    const URI = "http://localhost:3001/plan/insertarLugar";
     try {
-      const response = await axios.post("http://localhost:3002/api/plan/crearItinerario", {
-        actividades: itinerario,
-        nombrePlan: `Itinerario - ${new Date().toLocaleDateString()}`,
-      });
-      alert("Itinerario agregado con éxito");
+      setIsLoading(true); // Activar la pantalla de carga
+      for (const lugar of itinerario) {
+        // Extraer solo los elementos necesarios
+        const requestData = {
+          nombre_actividad: lugar.title,
+          imagen_actividad: lugar.image,
+          ID_google: lugar.id,
+          controlador: 1,
+        };
+        console.log(requestData);
+        const response = await axios.post(URI, requestData, { withCredentials: true }); // Enviar cookies de autenticación
+        console.log(response.data.message); // Mostrar mensaje en la consola
+      }
+      alert("Itenerario cargado con exito");
     } catch (error) {
-      console.error("Error al agregar el itinerario:", error);
-      alert("Hubo un error al agregar el itinerario");
+      console.error('Error al enviar los datos seleccionados:', error);
+      alert('Ocurrió un error al enviar los datos seleccionados del itinerario');
+    }finally{
+      setIsLoading(false); // Desactivar la pantalla de carga
     }
   };
 
@@ -150,10 +164,12 @@ const BusquedaLugares = ({ ciudad, keywords }) => {
                     <div className="accordion-content">
                       {itinerario.map((lugar) => (
                         <div key={lugar.id} className="itinerary-item">
+                          <img src={lugar.image} alt="" />
                           <h4>{lugar.title}</h4>
                           <p>{lugar.location}</p>
                         </div>
                       ))}
+                      {isLoading && <PantallaCarga message="Enviando itinerario, por favor espera..." />}
                       <button
                         className="save-itinerary-btn"
                         onClick={() => agregarItinerario(itinerario)}
@@ -166,8 +182,8 @@ const BusquedaLugares = ({ ciudad, keywords }) => {
               ))}
             </div>
             ) : (
-              <p>No hay itinerarios generados</p>
-            )}
+            <p>No hay itinerarios generados</p>
+          )}
         </div>
         {noResults && <h1>No se encontraron resultados para tu búsqueda :(</h1>}
       </div>

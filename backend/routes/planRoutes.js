@@ -16,5 +16,6 @@ router.post('/planPerfil', verifyToken, planController.planPerfil)
 router.delete('/deleteActividad', verifyToken, planController.deleteActividad);
 router.delete('/eliminarPlan', verifyToken, planController.eliminarPlan);
 router.delete('/eliminarFavorita', verifyToken, planController.eliminarFavorita);
+router.post('/agregarPlan', verifyToken, planController.agregarPlan);
 
 module.exports = router;

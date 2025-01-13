@@ -1,5 +1,5 @@
 const pool = require('../db/connection');
-
+// Agregar actividad a la DB
 exports.insertarLugar = (req, res) => {
     const { nombre_actividad, imagen_actividad, ID_google, controlador } = req.body;
     const userId = req.userId;
@@ -313,6 +313,10 @@ exports.nombrePlanPerfil = (req, res) => {
     });
 };
 
+// Funcion agregar planes ya creados
+exports.agregarPlan = (req, res) => {
+    
+}
 //Funcion para agregar favortitos
 exports.registrarFavorita = (req, res) => {
     const { actividadId } = req.body; // Datos del cliente

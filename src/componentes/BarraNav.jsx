@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { logoNomadas } from "../imgs/ArchivoImgs";
 import "../estilos/estiloBarraNav.css";
@@ -7,6 +7,7 @@ import { AuthContext } from "../context/auth";
 
 const BarraNav = () => {
   const { user, login, logout } = useContext(AuthContext);
+  const [menuOpen, setMenuOpen] = useState(false); // Estado para controlar el menú desplegable
 
   useEffect(() => {
     const verificarUsuario = async () => {
@@ -23,7 +24,7 @@ const BarraNav = () => {
     };
     verificarUsuario();
   }, [login, logout]);
-  
+
   return (
     <header className="header">
       <div className="logo">
@@ -36,7 +37,13 @@ const BarraNav = () => {
       </div>
 
       <nav>
-        <ul className="nav-links">
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
+        <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
           <li>
             <Link className="normal" to="/ArmarPlan">
               Arma tu plan
@@ -52,8 +59,7 @@ const BarraNav = () => {
               Ver mi plan
             </Link>
           </li>
-            {/* Condición para ocultar el enlace "Cerrar sesión" */}
-            {user ? null : (
+          {user ? null : (
             <li>
               <Link className="botonAccion" to="/InicioSesion">
                 Iniciar sesión

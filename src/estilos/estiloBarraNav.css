@@ -53,3 +53,111 @@
 .normal:hover {
   color: var(--secondary-color);
 }
+
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-links.open {
+  display: block;
+  flex-direction: column;
+}
+@media (max-width: 1024px) {
+  .header {
+    padding: 0.5rem 1rem; /* Ajusta ligeramente el padding */
+  }
+
+  .logo > a > h1 {
+    font-size: 1.8rem; /* Reduce un poco el tamaño del título */
+  }
+
+  .nav-links {
+    gap: 0.8rem; /* Reduce ligeramente el espacio entre enlaces */
+    font-size: 1.1rem; /* Ajusta el tamaño de fuente */
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-wrap: wrap; /* Permite que los elementos se ajusten en línea */
+    padding: 0.8rem;
+  }
+
+  .logo {
+    gap: 0.8rem; /* Ajusta el espacio entre los elementos del logo */
+  }
+
+  .logo > a > img {
+    width: 45px; /* Reduce un poco el tamaño del logo */
+  }
+
+  .logo > a > h1 {
+    font-size: 1.5rem; /* Reduce aún más el tamaño del texto */
+  }
+
+  .nav-links {
+    flex-wrap: wrap; /* Permite que los enlaces se ajusten si es necesario */
+    justify-content: center; /* Centra los enlaces */
+    gap: 0.6rem; /* Reduce más el espacio */
+    font-size: 1rem; /* Ajusta la fuente a pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos */
+    padding: 0.5rem;
+    font-size: .5rem;
+  }
+
+  .logo > a > img {
+    width: 35px; /* Reduce aún más el tamaño del logo */
+  }
+
+  .logo > a > h1 {
+    font-size: 1.2rem; /* Ajusta el texto del título */
+  }
+
+  .nav-links {
+    flex-direction: column; /* Cambia a una lista vertical */
+    align-items: center; /* Centra los enlaces */
+    gap: 0.4rem; /* Reduce el espacio entre enlaces */
+    font-size: 0.9rem; /* Tamaño de fuente más pequeño */
+  }
+
+  .nav-links .normal {
+    padding: 0.2rem 0.4rem; /* Reduce el padding en los enlaces */
+  }
+
+  
+}
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Muestra el botón ☰ en pantallas pequeñas */
+  }
+
+  .nav-links {
+    display: none; /* Oculta inicialmente los enlaces de navegación */
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .nav-links.open {
+    display: flex; /* Muestra los enlaces cuando el menú está abierto */
+  }
+}

@@ -187,7 +187,7 @@ const PerfilPlan = () => {
     };
     const guardarNombre = async (index) => {
       const nuevoNombreActividad = nuevoNombre || 'Nombre no disponible';
-      const plan_id = idplan;
+      const plan_id = ID_plan;
       const actividadId = plan[index].ID_actividad; // Ajusta al campo que identifica la actividad
     
       try {

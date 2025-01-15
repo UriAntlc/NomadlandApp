@@ -298,6 +298,7 @@ exports.nombrePlan = (req, res) => {
 exports.nombrePlanPerfil = (req, res) => {
     const userId = req.userId;
     const {ID_plan, PlanNombre} = req.body;
+    console.log(req.body);
     // Insertar en PLAN_ACTIVIDADES
     const planactividadQuery = `UPDATE PLAN SET nombre_itinerario = ? where ID_plan = ?`;
     pool.query(planactividadQuery, [PlanNombre, ID_plan], (err) => {

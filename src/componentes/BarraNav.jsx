@@ -29,10 +29,6 @@ const BarraNav = () => {
   }, [login, logout]);
 
   return (
-    <>
-    {isLoading ? (
-        <PantallaCarga message="Cargando datos, por favor espera..." />
-      ) : (
     <header className="header">
       <div className="logo">
         <Link to="/Inicio">
@@ -81,8 +77,6 @@ const BarraNav = () => {
         </ul>
       </nav>
     </header>
-    )}
-    </>
   );
 };
 

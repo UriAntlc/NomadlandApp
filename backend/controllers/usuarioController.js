@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const pool = require('../db/connection');
 const { Resend } = require('resend');
-const resend = new Resend('re_A3gYdg1F_AP2LBZ4JiSFU63hc54ssg7x4');
+const resend = new Resend('');
 
 exports.insertarUsuario = (req, res) => {
     const { nombre, apellido, correo, imagen, genero, fecha_nacimento } = req.body;
